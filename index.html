@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>VANISH HOTELS — Manali</title>
+<meta name="description" content="VANISH HOTELS, Manali. A quiet luxury hidden inside the pine forest.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --white:#FFFFFF;
+    --forest:#23422D;
+    --forest-2:#2C4F35;
+    --pine:#0E1B13;
+    --pine-2:#132a1c;
+    --mist:#C9D2CC;
+    --mist-2:#E7EBE6;
+    --gold:#C9A66B;
+    --gold-soft:#E4CFA0;
+    --ink:#12201A;
+
+    --font-head:'Playfair Display', serif;
+    --font-body:'Inter', sans-serif;
+    --font-btn:'Poppins', sans-serif;
+
+    --ease-out:cubic-bezier(.16,.8,.24,1);
+    --ease-soft:cubic-bezier(.4,0,.2,1);
+
+    --space-xs: clamp(8px,1vw,12px);
+    --space-s: clamp(16px,2vw,24px);
+    --space-m: clamp(32px,4vw,56px);
+    --space-l: clamp(56px,8vw,110px);
+    --space-xl: clamp(90px,12vw,180px);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html,body{
+    background:var(--white);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-weight:300;
+    overflow-x:hidden;
+    width:100%;
+  }
+  body.lock{ overflow:hidden; height:100vh; }
+  img{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:var(--font-btn);border:none;background:none;cursor:pointer;}
+  ::selection{background:var(--gold-soft);color:var(--pine);}
+
+  h1,h2,h3{font-family:var(--font-head);font-weight:500;letter-spacing:.01em;line-height:1.08;}
+
+  .eyebrow{
+    font-family:var(--font-btn);
+    font-weight:600;
+    font-size:11px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--gold);
+  }
+
+  /* ============ LANDING ============ */
+  #landing{
+    position:fixed;inset:0;
+    z-index:100;
+    background:var(--white);
+    display:flex;align-items:center;justify-content:center;
+    transition:opacity .9s var(--ease-soft);
+  }
+  #landing.fade-bg{ opacity:0; pointer-events:none; }
+  .swipe-wrap{
+    text-align:center;
+    transition:opacity .55s var(--ease-soft), transform .55s var(--ease-soft);
+  }
+  .swipe-wrap.fade-text{ opacity:0; transform:translateY(-14px) scale(.98); }
+  .swipe-text{
+    font-family:var(--font-head);
+    font-style:italic;
+    font-weight:500;
+    font-size:clamp(30px,6vw,66px);
+    letter-spacing:.06em;
+    color:var(--forest);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:clamp(14px,2vw,26px);
+  }
+  .swipe-arrow{
+    display:inline-block;
+    font-style:normal;
+    color:var(--gold);
+    animation:arrowPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes arrowPulse{
+    0%,100%{ transform:translateX(0); opacity:.7; }
+    50%{ transform:translateX(10px); opacity:1; }
+  }
+  .swipe-sub{
+    margin-top:14px;
+    font-family:var(--font-body);
+    font-weight:300;
+    font-size:12px;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:#9AA79E;
+  }
+
+  /* ============ NAV ============ */
+  #nav{
+    position:fixed; top:0; right:0; left:0;
+    z-index:80;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:clamp(18px,3vw,34px) clamp(20px,4vw,48px);
+    opacity:0;
+    transform:translateY(-10px);
+    transition:opacity 1s var(--ease-soft) .1s, transform 1s var(--ease-soft) .1s, background .4s ease, backdrop-filter .4s ease;
+    pointer-events:none;
+  }
+  #nav.show{ opacity:1; transform:translateY(0); pointer-events:auto; }
+  #nav.scrolled{
+    background:rgba(14,27,19,.32);
+    backdrop-filter:blur(14px) saturate(140%);
+    -webkit-backdrop-filter:blur(14px) saturate(140%);
+  }
+  .brand{
+    font-family:var(--font-head);
+    font-size:15px;
+    letter-spacing:.22em;
+    color:var(--white);
+    text-shadow:0 1px 8px rgba(0,0,0,.35);
+    opacity:.95;
+  }
+  .brand b{color:var(--gold);font-weight:600;}
+  .nav-links{
+    display:flex;
+    gap:clamp(22px,3vw,42px);
+  }
+  .nav-links a{
+    position:relative;
+    font-family:var(--font-btn);
+    font-weight:500;
+    font-size:12.5px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--white);
+    padding-bottom:6px;
+    text-shadow:0 1px 8px rgba(0,0,0,.3);
+  }
+  .nav-links a::after{
+    content:'';
+    position:absolute; left:0; bottom:0;
+    width:0%; height:1px;
+    background:var(--gold);
+    transition:width .45s var(--ease-out);
+  }
+  .nav-links a:hover::after{ width:100%; }
+  .nav-toggle{ display:none; }
+
+  /* ============ FRAME CINEMA SECTION ============ */
+  #cinema{
+    position:relative;
+    height:600vh;
+    background:var(--pine);
+  }
+  .cinema-sticky{
+    position:sticky; top:0;
+    height:100vh; width:100%;
+    overflow:hidden;
+  }
+  #frameCanvas{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    display:block;
+    will-change:transform;
+  }
+  .cinema-fog{
+    position:absolute; inset:0;
+    pointer-events:none;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 15%, rgba(255,255,255,.20), transparent 60%),
+      radial-gradient(ellipse 70% 45% at 85% 80%, rgba(201,166,107,.10), transparent 65%),
+      linear-gradient(180deg, rgba(14,27,19,.35) 0%, rgba(14,27,19,0) 22%, rgba(14,27,19,0) 68%, rgba(14,27,19,.55) 100%);
+    mix-blend-mode:screen;
+    animation:fogBreathe 9s ease-in-out infinite;
+  }
+  @keyframes fogBreathe{
+    0%,100%{ opacity:.75; }
+    50%{ opacity:1; }
+  }
+  .cinema-vignette{
+    position:absolute; inset:0;
+    pointer-events:none;
+    box-shadow:inset 0 0 18vw rgba(0,0,0,.45);
+  }
+  #dust{
+    position:absolute; inset:0;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity 1.2s ease;
+  }
+  #dust.active{ opacity:1; }
+  .mote{
+    position:absolute;
+    bottom:-6%;
+    width:4px;height:4px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(230,224,204,.9), rgba(230,224,204,0) 70%);
+    animation-name:floatUp;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+  }
+  @keyframes floatUp{
+    0%{ transform:translate(0,0); opacity:0; }
+    8%{ opacity:.85; }
+    92%{ opacity:.5; }
+    100%{ transform:translate(var(--drift), -118vh); opacity:0; }
+  }
+  .cinema-caption{
+    position:absolute;
+    left:50%; bottom:clamp(30px,6vh,60px);
+    transform:translateX(-50%);
+    text-align:center;
+    color:var(--mist-2);
+    opacity:0;
+    transition:opacity 1s ease;
+    z-index:2;
+  }
+  .cinema-caption.show{ opacity:.85; }
+  .cinema-caption .line1{
+    font-family:var(--font-head);
+    font-style:italic;
+    font-size:clamp(18px,2.6vw,30px);
+    color:var(--white);
+  }
+  .cinema-caption .line2{
+    margin-top:8px;
+    font-size:10px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+  }
+  .progress-rail{
+    position:absolute; left:0; right:0; bottom:0;
+    height:2px;
+    background:rgba(255,255,255,.12);
+    z-index:3;
+  }
+  .progress-fill{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg, var(--gold), var(--gold-soft));
+  }
+  .loader{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--pine);
+    z-index:5;
+    opacity:0; pointer-events:none;
+    transition:opacity .5s ease;
+    flex-direction:column;
+    gap:16px;
+  }
+  .loader.show{ opacity:1; pointer-events:auto; }
+  .loader-ring{
+    width:34px;height:34px;
+    border-radius:50%;
+    border:1.5px solid rgba(201,166,107,.25);
+    border-top-color:var(--gold);
+    animation:spin 1s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .loader-text{
+    font-family:var(--font-body);
+    font-size:11px; letter-spacing:.3em; text-transform:uppercase;
+    color:var(--mist);
+  }
+
+  /* ============ OUR STORY ============ */
+  #story{
+    position:relative;
+    background:var(--pine);
+    color:var(--mist-2);
+    padding:var(--space-xl) var(--space-m) var(--space-xl);
+    overflow:hidden;
+  }
+  .story-bg{
+    position:absolute; inset:0;
+    background-image:url('frames/frame-199.jpg');
+    background-size:cover;
+    background-position:center 65%;
+    filter:brightness(.34) saturate(.85) blur(.5px);
+    transform:scale(1.06);
+  }
+  .story-bg::after{
+    content:'';
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, var(--pine) 0%, rgba(14,27,19,.55) 18%, rgba(14,27,19,.55) 82%, var(--pine) 100%);
+  }
+  .story-inner{
+    position:relative; z-index:2;
+    max-width:760px; margin:0 auto;
+    text-align:center;
+  }
+  .story-title{
+    margin-top:18px;
+    font-size:clamp(38px,6.5vw,74px);
+    color:var(--white);
+    letter-spacing:.02em;
+    opacity:0; transform:translateY(28px);
+    transition:opacity 1.1s var(--ease-out), transform 1.1s var(--ease-out);
+  }
+  .story-title.in-view{ opacity:1; transform:translateY(0); }
+  .story-rule{
+    width:46px; height:1px; background:var(--gold);
+    margin:26px auto 0;
+    transform:scaleX(0); transform-origin:center;
+    transition:transform 1s var(--ease-out) .3s;
+  }
+  .story-rule.in-view{ transform:scaleX(1); }
+  .story-para{
+    margin-top:var(--space-m);
+    font-size:clamp(16px,2vw,20px);
+    line-height:1.85;
+    font-weight:300;
+    color:var(--mist);
+  }
+  .story-para .ln{
+    display:block;
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity .9s var(--ease-out), transform .9s var(--ease-out);
+  }
+  .story-para .ln.in-view{ opacity:1; transform:translateY(0); }
+
+  /* ============ EXPERIENCE ============ */
+  #experience{
+    background:var(--white);
+    padding:var(--space-xl) var(--space-m);
+  }
+  .exp-head{ text-align:center; max-width:640px; margin:0 auto var(--space-l); }
+  .exp-head .eyebrow{ display:block; }
+  .exp-head h2{
+    margin-top:16px;
+    font-size:clamp(32px,5vw,56px);
+    color:var(--forest);
+  }
+  .exp-head p{
+    margin-top:18px;
+    color:#5B6B60;
+    font-size:16px;
+    line-height:1.75;
+  }
+  .exp-grid{
+    max-width:1240px; margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:clamp(20px,2.4vw,34px);
+  }
+  .exp-card{
+    position:relative;
+    border-radius:6px;
+    overflow:hidden;
+    aspect-ratio:3/4.1;
+    isolation:isolate;
+    opacity:0; transform:translateY(30px);
+    transition:opacity .9s var(--ease-out), transform .9s var(--ease-out);
+  }
+  .exp-card.in-view{ opacity:1; transform:translateY(0); }
+  .exp-card img{
+    position:absolute; inset:0;
+    width:100%; height:100%; object-fit:cover;
+    transition:transform 1.4s var(--ease-soft), filter .6s ease;
+    filter:brightness(.82) saturate(.95);
+  }
+  .exp-card:hover img{ transform:scale(1.09); filter:brightness(.72) saturate(1.05); }
+  .exp-card::before{
+    content:'';
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(14,27,19,0) 35%, rgba(14,27,19,.85) 100%);
+    z-index:1;
+  }
+  .exp-card-content{
+    position:absolute; left:0; right:0; bottom:0;
+    z-index:2;
+    padding:26px 24px;
+    color:var(--white);
+  }
+  .exp-card-content .num{
+    font-family:var(--font-btn);
+    font-size:11px; letter-spacing:.3em;
+    color:var(--gold-soft);
+  }
+  .exp-card-content h3{
+    margin-top:10px;
+    font-size:clamp(20px,2.2vw,26px);
+    font-weight:500;
+  }
+  .exp-card-content p{
+    margin-top:8px;
+    font-size:13.5px;
+    line-height:1.6;
+    color:var(--mist-2);
+    max-width:32ch;
+    opacity:.9;
+  }
+
+  /* ============ CTA ============ */
+  #cta{
+    position:relative;
+    background:var(--forest);
+    color:var(--white);
+    padding:var(--space-xl) var(--space-m);
+    text-align:center;
+    overflow:hidden;
+  }
+  #cta::before{
+    content:'';
+    position:absolute; inset:0;
+    background:radial-gradient(ellipse 60% 70% at 50% 0%, rgba(201,166,107,.14), transparent 70%);
+  }
+  .cta-inner{ position:relative; z-index:1; max-width:680px; margin:0 auto; }
+  .cta-inner .eyebrow{ color:var(--gold-soft); }
+  .cta-inner h2{
+    margin-top:18px;
+    font-size:clamp(30px,5vw,52px);
+    font-style:italic;
+    line-height:1.25;
+  }
+  .btn-gold{
+    margin-top:var(--space-m);
+    display:inline-block;
+    padding:17px 44px;
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--pine);
+    background:linear-gradient(135deg, var(--gold-soft), var(--gold));
+    border-radius:2px;
+    transition:transform .4s var(--ease-out), box-shadow .4s var(--ease-out);
+    box-shadow:0 10px 30px -12px rgba(201,166,107,.5);
+  }
+  .btn-gold:hover{ transform:translateY(-3px); box-shadow:0 16px 34px -12px rgba(201,166,107,.65); }
+
+  /* ============ FOOTER ============ */
+  footer{
+    background:var(--pine);
+    color:var(--mist);
+    padding:var(--space-l) var(--space-m) var(--space-m);
+  }
+  .foot-grid{
+    max-width:1240px; margin:0 auto;
+    display:grid;
+    grid-template-columns:1.3fr 1fr 1fr 1.1fr;
+    gap:var(--space-m);
+    padding-bottom:var(--space-l);
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .foot-brand{ font-family:var(--font-head); font-size:20px; letter-spacing:.14em; color:var(--white); }
+  .foot-brand b{ color:var(--gold); }
+  .foot-brand p{
+    margin-top:16px; font-size:13.5px; line-height:1.8; color:#8AA090; max-width:30ch;
+  }
+  .foot-col h4{
+    font-family:var(--font-btn); font-size:11.5px; letter-spacing:.24em; text-transform:uppercase;
+    color:var(--gold-soft); margin-bottom:18px; font-weight:600;
+  }
+  .foot-col a, .foot-col p{
+    display:block; font-size:14px; color:#B7C4BB; line-height:2.1;
+  }
+  .foot-col a:hover{ color:var(--gold-soft); }
+  #feedback-form{ display:flex; flex-direction:column; gap:10px; margin-top:4px; }
+  #feedback-form input, #feedback-form textarea{
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:3px;
+    padding:10px 12px;
+    color:var(--white);
+    font-family:var(--font-body);
+    font-size:13px;
+    resize:none;
+  }
+  #feedback-form input::placeholder, #feedback-form textarea::placeholder{ color:#7E9186; }
+  #feedback-form button{
+    margin-top:6px;
+    align-self:flex-start;
+    padding:10px 22px;
+    font-size:11px; font-weight:600; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--pine); background:var(--gold-soft); border-radius:2px;
+    transition:background .3s ease;
+  }
+  #feedback-form button:hover{ background:var(--gold); }
+  .foot-bottom{
+    max-width:1240px; margin:0 auto;
+    padding-top:var(--space-s);
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:11.5px; letter-spacing:.06em; color:#6C7F73;
+  }
+
+  .reveal-skip *{ transition:none !important; animation:none !important; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .swipe-arrow{ animation:none; }
+    #dust{ display:none; }
+    .cinema-fog{ animation:none; }
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:1024px){
+    .exp-grid{ grid-template-columns:repeat(2,1fr); }
+    .foot-grid{ grid-template-columns:1fr 1fr; row-gap:var(--space-m); }
+  }
+  @media (max-width:720px){
+    #cinema{ height:480vh; }
+    .exp-grid{ grid-template-columns:1fr; max-width:420px; }
+    .exp-card{ aspect-ratio:4/3.4; }
+    .foot-grid{ grid-template-columns:1fr; }
+    .foot-bottom{ flex-direction:column; gap:8px; text-align:center; }
+    .nav-links{ gap:16px; }
+    .nav-links a{ font-size:10.5px; }
+    .brand{ font-size:12.5px; }
+    .cinema-caption .line1{ font-size:20px; }
+  }
+  @media (max-width:420px){
+    .swipe-text{ gap:10px; }
+    .nav-links a span{ display:none; }
+  }
+</style>
+</head>
+<body class="lock">
+
+  <!-- LANDING -->
+  <div id="landing">
+    <div class="swipe-wrap" id="swipeWrap">
+      <div class="swipe-text">SWIPE <span class="swipe-arrow">→</span></div>
+      <div class="swipe-sub">Vanish Hotels · Manali</div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="brand"><b>VANISH</b> HOTELS</div>
+    <div class="nav-links">
+      <a href="#top" data-nav>Home</a>
+      <a href="#contact" data-nav>Contact</a>
+      <a href="#feedback" data-nav>Feedback</a>
+    </div>
+  </nav>
+
+  <div id="top"></div>
+
+  <!-- CINEMA / FRAME SEQUENCE -->
+  <section id="cinema">
+    <div class="cinema-sticky">
+      <canvas id="frameCanvas"></canvas>
+      <div class="cinema-fog"></div>
+      <div class="cinema-vignette"></div>
+      <div id="dust"></div>
+      <div class="cinema-caption" id="cinemaCaption">
+        <div class="line1">Somewhere above the clouds of Manali</div>
+        <div class="line2">Descending into the pines</div>
+      </div>
+      <div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="loader" id="loader">
+        <div class="loader-ring"></div>
+        <div class="loader-text">Entering the forest</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUR STORY -->
+  <section id="story">
+    <div class="story-bg"></div>
+    <div class="story-inner">
+      <div class="eyebrow" id="storyEyebrow">The Beginning</div>
+      <h2 class="story-title" id="storyTitle">Our Story</h2>
+      <div class="story-rule" id="storyRule"></div>
+      <p class="story-para" id="storyPara"></p>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="exp-head">
+      <span class="eyebrow">The Experience</span>
+      <h2>Where stillness lives</h2>
+      <p>Three ways to slow down — a forest suite that breathes, a spa carved into silence, and evenings spent beside the fire.</p>
+    </div>
+    <div class="exp-grid">
+      <div class="exp-card">
+        <img src="frames/frame-020.jpg" alt="Forest Suites at Vanish Hotels" loading="lazy">
+        <div class="exp-card-content">
+          <div class="num">01</div>
+          <h3>Forest Suites</h3>
+          <p>Private balconies open into the pines, where morning mist drifts in like a quiet guest.</p>
+        </div>
+      </div>
+      <div class="exp-card">
+        <img src="frames/frame-085.jpg" alt="Mountain Spa at Vanish Hotels" loading="lazy">
+        <div class="exp-card-content">
+          <div class="num">02</div>
+          <h3>Mountain Spa</h3>
+          <p>Rituals drawn from Himalayan tradition, set to the sound of wind moving through cedar.</p>
+        </div>
+      </div>
+      <div class="exp-card">
+        <img src="frames/frame-140.jpg" alt="Fireside Dining at Vanish Hotels" loading="lazy">
+        <div class="exp-card-content">
+          <div class="num">03</div>
+          <h3>Fireside Dining</h3>
+          <p>Local flavours, slow-cooked, served under open sky and the low glow of firelight.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta">
+    <div class="cta-inner">
+      <span class="eyebrow">Vanish, Gently</span>
+      <h2>A forest is waiting where the noise cannot follow.</h2>
+      <a href="#contact" class="btn-gold">Reserve Your Stay</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand"><b>VANISH</b> HOTELS</div>
+        <p>A quiet luxury hotel folded into the pine forests above Manali, Himachal Pradesh.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Reach Us</h4>
+        <a href="tel:+911234567890">+91 123 456 7890</a>
+        <a href="mailto:stay@vanishhotels.com">stay@vanishhotels.com</a>
+        <p>Old Manali Road, Manali,<br>Himachal Pradesh, India</p>
+      </div>
+      <div class="foot-col">
+        <h4>Explore</h4>
+        <a href="#top">Home</a>
+        <a href="#experience">Experience</a>
+        <a href="#story">Our Story</a>
+      </div>
+      <div class="foot-col" id="feedback">
+        <h4>Feedback</h4>
+        <form id="feedback-form">
+          <input type="text" placeholder="Your name" required>
+          <textarea rows="2" placeholder="Tell us about your stay"></textarea>
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Vanish Hotels, Manali. All rights reserved.</span>
+      <span>Designed for stillness.</span>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  'use strict';
+
+  var TOTAL_FRAMES = 199;
+  var FRAME_PATH = function(i){ return 'frames/frame-' + String(i).padStart(3,'0') + '.jpg'; };
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Preload frames ---------- */
+  var images = new Array(TOTAL_FRAMES);
+  var loadedCount = 0;
+  var allLoaded = false;
+
+  function preload(){
+    for (var i = 1; i <= TOTAL_FRAMES; i++){
+      (function(idx){
+        var img = new Image();
+        img.onload = img.onerror = function(){
+          loadedCount++;
+          if (loadedCount >= TOTAL_FRAMES){ allLoaded = true; }
+        };
+        img.src = FRAME_PATH(idx);
+        images[idx-1] = img;
+      })(i);
+    }
+  }
+  preload();
+
+  /* ---------- Landing dismiss ---------- */
+  var landing = document.getElementById('landing');
+  var swipeWrap = document.getElementById('swipeWrap');
+  var nav = document.getElementById('nav');
+  var loader = document.getElementById('loader');
+  var dismissed = false;
+  var canvasReady = false;
+
+  function unlockScroll(){
+    document.body.classList.remove('lock');
+  }
+
+  function afterDismiss(){
+    landing.style.display = 'none';
+    unlockScroll();
+    nav.classList.add('show');
+    if (!allLoaded){
+      loader.classList.add('show');
+      var poll = setInterval(function(){
+        if (allLoaded){
+          loader.classList.remove('show');
+          clearInterval(poll);
+        }
+      }, 80);
+    }
+    canvasReady = true;
+    initCinema();
+  }
+
+  function dismissLanding(){
+    if (dismissed) return;
+    dismissed = true;
+    swipeWrap.classList.add('fade-text');
+    setTimeout(function(){
+      landing.classList.add('fade-bg');
+      setTimeout(afterDismiss, 500);
+    }, 420);
+  }
+
+  var touchStartY = 0, touchStartX = 0;
+  window.addEventListener('wheel', function(e){ if(!dismissed && Math.abs(e.deltaY) > 4) dismissLanding(); }, {passive:true});
+  window.addEventListener('touchstart', function(e){
+    touchStartY = e.touches[0].clientY;
+    touchStartX = e.touches[0].clientX;
+  }, {passive:true});
+  window.addEventListener('touchmove', function(e){
+    if (dismissed) return;
+    var dy = touchStartY - e.touches[0].clientY;
+    var dx = touchStartX - e.touches[0].clientX;
+    if (Math.abs(dy) > 18 || Math.abs(dx) > 18) dismissLanding();
+  }, {passive:true});
+  window.addEventListener('keydown', function(e){
+    if (['ArrowDown','ArrowRight',' ','PageDown'].indexOf(e.key) > -1) dismissLanding();
+  });
+  landing.addEventListener('click', dismissLanding);
+
+  /* ---------- Cinema canvas scrubbing ---------- */
+  var canvas = document.getElementById('frameCanvas');
+  var ctx = canvas.getContext('2d');
+  var cinemaSection = document.getElementById('cinema');
+  var progressFill = document.getElementById('progressFill');
+  var dust = document.getElementById('dust');
+  var caption = document.getElementById('cinemaCaption');
+  var currentFrame = 0;
+  var rafId = null;
+
+  function resizeCanvas(){
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  window.addEventListener('resize', resizeCanvas);
+
+  function drawCover(img, alpha){
+    if (!img || !img.complete || !img.naturalWidth) return;
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var ir = img.naturalWidth / img.naturalHeight;
+    var vr = vw / vh;
+    var dw, dh, dx, dy;
+    if (vr > ir){ dw = vw; dh = vw / ir; dx = 0; dy = (vh - dh)/2; }
+    else { dh = vh; dw = vh * ir; dy = 0; dx = (vw - dw)/2; }
+    ctx.globalAlpha = alpha;
+    ctx.drawImage(img, dx, dy, dw, dh);
+    ctx.globalAlpha = 1;
+  }
+
+  function getProgress(){
+    var rect = cinemaSection.getBoundingClientRect();
+    var total = rect.height - window.innerHeight;
+    if (total <= 0) return rect.top <= 0 ? 1 : 0;
+    var p = -rect.top / total;
+    return Math.max(0, Math.min(1, p));
+  }
+
+  var lastNearest = -1;
+  function tick(){
+    var progress = getProgress();
+    var target = progress * (TOTAL_FRAMES - 1);
+    var lerpAmt = reducedMotion ? 1 : 0.16;
+    currentFrame += (target - currentFrame) * lerpAmt;
+    if (Math.abs(target - currentFrame) < 0.01) currentFrame = target;
+
+    var i0 = Math.floor(currentFrame);
+    var i1 = Math.min(i0 + 1, TOTAL_FRAMES - 1);
+    var frac = currentFrame - i0;
+
+    ctx.clearRect(0,0,window.innerWidth, window.innerHeight);
+    var imgA = images[i0], imgB = images[i1];
+    var fallback = null;
+    for (var k = i0; k >= 0; k--){ if (images[k] && images[k].complete && images[k].naturalWidth){ fallback = images[k]; break; } }
+
+    if (imgA && imgA.complete && imgA.naturalWidth){ drawCover(imgA, 1); }
+    else if (fallback){ drawCover(fallback, 1); }
+
+    if (frac > 0.02 && imgB && imgB.complete && imgB.naturalWidth){ drawCover(imgB, frac); }
+
+    // subtle zoom tied to progress
+    var scale = 1 + progress * 0.035;
+    canvas.style.transform = 'scale(' + scale.toFixed(4) + ')';
+
+    progressFill.style.width = (progress*100).toFixed(2) + '%';
+
+    if (progress > 0.02 && progress < 0.97){ dust.classList.add('active'); }
+    else { dust.classList.remove('active'); }
+
+    if (progress < 0.14){ caption.classList.add('show'); } else { caption.classList.remove('show'); }
+
+    var nearest = Math.round(currentFrame);
+    lastNearest = nearest;
+
+    rafId = requestAnimationFrame(tick);
+  }
+
+  var cinemaInited = false;
+  function initCinema(){
+    if (cinemaInited) return;
+    cinemaInited = true;
+    resizeCanvas();
+    buildDust();
+    tick();
+  }
+
+  function buildDust(){
+    var count = window.innerWidth < 700 ? 16 : 30;
+    for (var i=0;i<count;i++){
+      var m = document.createElement('div');
+      m.className = 'mote';
+      var left = Math.random()*100;
+      var size = 2 + Math.random()*3;
+      var dur = 10 + Math.random()*12;
+      var delay = Math.random()*-20;
+      var drift = (Math.random()*80 - 40) + 'px';
+      m.style.left = left + '%';
+      m.style.width = size + 'px';
+      m.style.height = size + 'px';
+      m.style.setProperty('--drift', drift);
+      m.style.animationDuration = dur + 's';
+      m.style.animationDelay = delay + 's';
+      dust.appendChild(m);
+    }
+  }
+
+  /* ---------- Nav blur on scroll ---------- */
+  window.addEventListener('scroll', function(){
+    if (window.scrollY > 40) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }, {passive:true});
+
+  /* ---------- Our Story reveal ---------- */
+  var storyText = "Nestled among the peaceful forests of Manali, VANISH HOTELS was created to offer travelers an unforgettable blend of luxury, comfort, and nature. Every sunrise, every mountain breeze, and every quiet evening becomes a cherished memory here.";
+  var storyPara = document.getElementById('storyPara');
+  (function buildLines(){
+    var sentences = storyText.match(/[^.]+\.?/g).map(function(s){ return s.trim(); }).filter(Boolean);
+    sentences.forEach(function(s, idx){
+      var span = document.createElement('span');
+      span.className = 'ln';
+      span.textContent = s;
+      span.style.transitionDelay = (idx * 0.16) + 's';
+      storyPara.appendChild(span);
+    });
+  })();
+
+  var storyTitle = document.getElementById('storyTitle');
+  var storyRule = document.getElementById('storyRule');
+  var storyLines = storyPara.querySelectorAll('.ln');
+
+  var storyObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting){
+        storyTitle.classList.add('in-view');
+        storyRule.classList.add('in-view');
+        setTimeout(function(){
+          storyLines.forEach(function(l){ l.classList.add('in-view'); });
+        }, 350);
+        storyObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.35 });
+  storyObserver.observe(document.getElementById('story'));
+
+  /* ---------- Experience cards reveal ---------- */
+  var cards = document.querySelectorAll('.exp-card');
+  var cardObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry, i){
+      if (entry.isIntersecting){
+        setTimeout(function(){ entry.target.classList.add('in-view'); }, i*120);
+        cardObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  cards.forEach(function(c){ cardObserver.observe(c); });
+
+  /* ---------- Nav links smooth close on mobile / active state ---------- */
+  document.querySelectorAll('[data-nav]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var id = a.getAttribute('href');
+      var target = document.querySelector(id);
+      if (target){
+        e.preventDefault();
+        target.scrollIntoView({behavior: reducedMotion ? 'auto' : 'smooth', block: 'start'});
+      }
+    });
+  });
+
+  /* ---------- Feedback form (front-end only) ---------- */
+  var form = document.getElementById('feedback-form');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var btn = form.querySelector('button');
+    var original = btn.textContent;
+    btn.textContent = 'Thank you';
+    form.reset();
+    setTimeout(function(){ btn.textContent = original; }, 2200);
+  });
+
+  /* Safety: if fonts/canvas not ready but user never interacts on touch-only
+     devices where wheel/touchmove might be swallowed by inner elements,
+     also allow a tap-and-hold-free single tap after 300ms grace. */
+  var landingReadyAt = Date.now();
+  landing.addEventListener('touchend', function(){
+    if (Date.now() - landingReadyAt > 250) dismissLanding();
+  });
+
+})();
+</script>
+</body>
+</html>
